@@ -80,3 +80,7 @@ supply them yourself.
 - With `--check`, a `similar` or `dupe` status for every file means APKMirror already has
   that build, so nothing is uploaded.
 - This is an unofficial tool, not affiliated with or endorsed by ML Manager or APKMirror.
+
+## License
+
+[MIT](LICENSE)
