@@ -1,6 +1,6 @@
 # Fakh APKMirror Uploader
 
-Upload APKs to APKMirror from your Mac. A single-file Python script that reproduces the
+Upload APKs to APKMirror from your desktop. A single-file Python script that reproduces the
 "Upload to APKMirror" flow from ML Manager 5.0, so you don't need the Android app.
 
 By default it sends the files straight to APKMirror as one multipart `POST /upload/`.

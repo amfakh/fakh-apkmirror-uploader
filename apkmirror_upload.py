@@ -147,7 +147,7 @@ def upload(files: list[Path], fullname: str, email: str, changes: str) -> dict:
                 for f, h in zip(files, handles, strict=True)
             ],
             headers=HEADERS,
-            timeout=300,
+            timeout=1800,
         )
     finally:
         for h in handles:
