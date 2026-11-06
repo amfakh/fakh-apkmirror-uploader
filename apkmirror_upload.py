@@ -29,12 +29,6 @@ BASE_URL = "https://www.apkmirror.com/wp-json/apkm/v1"
 VERSION = "0.1.0"
 HEADERS = {"User-Agent": f"Fakh APKMirror Uploader/{VERSION}"}
 
-# Basic-auth for the uploadable check. The upload API is not part of ML Manager's
-# open-source code, so its credentials are not shipped here: supply both yourself
-# via the environment.
-CHECK_USER = os.getenv("APKM_CHECK_USER")
-CHECK_PASS = os.getenv("APKM_CHECK_PASS")
-
 # Status messages, worded here rather than copied from the app.
 MSG_UPLOADING = "Uploading {name}..."
 MSG_UPLOADED = "Uploaded {name}"
@@ -107,13 +101,16 @@ def check_uploadable(files: list[Path]) -> tuple[list[Path], list[dict]]:
     Raises:
         SystemExit: APKM_CHECK_USER or APKM_CHECK_PASS is not set.
     """
-    if not (CHECK_USER and CHECK_PASS):
+    # The upload API is not part of ML Manager's open-source code, so its basic-auth
+    # credentials are not shipped here. Read them after main() has loaded .env.
+    user, password = os.getenv("APKM_CHECK_USER"), os.getenv("APKM_CHECK_PASS")
+    if not (user and password):
         raise SystemExit("Set APKM_CHECK_USER and APKM_CHECK_PASS for the upload API.")
     by_md5 = {md5_of(f): f for f in files}
     resp = requests.post(
         f"{BASE_URL}/apk_uploadable/",
         json={"md5s": list(by_md5)},
-        auth=(CHECK_USER, CHECK_PASS),
+        auth=(user, password),
         headers=HEADERS,
         timeout=60,
     )
